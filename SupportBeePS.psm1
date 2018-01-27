@@ -1,4 +1,41 @@
 function Invoke-SBApiRequest {
+    <#
+        .SYNOPSIS
+            Support function for the Support Bee module
+        .DESCRIPTION
+            The function does the actual API calls against the SupportBee API
+
+            An Access token is required for most functions.
+            Access tokens can be found under the Settings > API Token screen
+            on your Support Bee site        
+        .LINK
+            https://github.com/rumart/SupportBeePS
+            https://adatum.no
+            https://rudimartinsen.com
+        .NOTES
+            Info
+            Author: Rudi Martinsen and Martin Ehrnst
+            Date: 20/01-2018
+            Version: 0.1.1
+            Revised: 27/01-2018
+            Changelog:
+            0.1.1 -- Added helptext
+        .PARAMETER SupportBeeCompany
+            Company name for the SupportBee organization
+        .PARAMETER Resource
+            The resource for the API call
+        .PARAMETER Query
+            Optional query
+        .PARAMETER Query
+            Content to be sent with the API call
+        .PARAMETER Method
+            HTTP Method to use
+        .PARAMETER AuthToken
+            API token for the SupportBee company
+        .EXAMPLE
+            Invoke-SBApiRequest -SupportBeeCompany Company1 -Resource tickets -AuthToken $token
+            Retrieves all tickets for Company1
+    #>
     [cmdletbinding()]
     param(
         [parameter(Mandatory=$true)]
@@ -13,17 +50,7 @@ function Invoke-SBApiRequest {
         $baseUrl = "https://$SBCompany.supportbee.com/"
         
         if(!$AuthToken -and $Resource -ne "tickets" -and $Method -ne "POST"){
-            Write-Error ""
-        }
-        
-        if($AuthToken){
-            if($query){
-                $q = "&" + $Query
-            }
-            $uri = $baseUrl + $Resource + "?auth_token=$AuthToken" + $Q
-        }
-        else{
-            $uri = $baseUrl + $Resource
+            Write-Error "Authentication token is mandatory for this request!"
         }
         
         $headers = @{
@@ -31,6 +58,16 @@ function Invoke-SBApiRequest {
             "Accept" = 'application/json'
         }
 
+        if($AuthToken){
+            if($query){
+                $Q = "&" + $Query
+            }
+            $uri = $baseUrl + $Resource + "?auth_token=$AuthToken" + $Q
+        }
+        else{
+            $uri = $baseUrl + $Resource
+        }
+        
         if($Method -eq "POST"){
             $body = $Content
         }
@@ -49,13 +86,18 @@ function Get-SBTicket {
             An Access token is required for this function.
             Access tokens can be found under the Settings > API Token screen
             on your Support Bee site        
+        .LINK
+            https://github.com/rumart/SupportBeePS
+            https://adatum.no
+            https://rudimartinsen.com
         .NOTES
             Info
-            Author: Rudi Martinsen / Intility AS and Martin Ehrnst / Intility AS
+            Author: Rudi Martinsen and Martin Ehrnst
             Date: 20/01-2018
-            Version: 0.1.0
-            Revised: 
+            Version: 0.1.1
+            Revised: 27/01-2018
             Changelog:
+            0.1.1 -- Added links
         .PARAMETER SupportBeeCompany
             Company name for the SupportBee organization
         .PARAMETER TicketId
@@ -104,13 +146,18 @@ function New-SBTicket {
         .DESCRIPTION
             The function creates a ticket for the SupportBee company.
             This function does not require authentication.
+        .LINK
+            https://github.com/rumart/SupportBeePS
+            https://adatum.no
+            https://rudimartinsen.com
         .NOTES
             Info
-            Author: Rudi Martinsen / Intility AS and Martin Ehrnst / Intility AS
+            Author: Rudi Martinsen and Martin Ehrnst
             Date: 20/01-2018
-            Version: 0.1.0
-            Revised: 
+            Version: 0.1.1
+            Revised: 27/01-2018
             Changelog:
+            0.1.1 -- Added links
         .PARAMETER SupportBeeCompany
             Company name for the SupportBee organization
         .PARAMETER Requester
@@ -165,13 +212,18 @@ function Set-SBTicket {
             An Access token is required for this function.
             Access tokens can be found under the Settings > API Token screen
             on your Support Bee site  
+        .LINK
+            https://github.com/rumart/SupportBeePS
+            https://adatum.no
+            https://rudimartinsen.com
         .NOTES
             Info
-            Author: Rudi Martinsen / Intility AS and Martin Ehrnst / Intility AS
+            Author: Rudi Martinsen and Martin Ehrnst
             Date: 20/01-2018
-            Version: 0.1.0
-            Revised: 
+            Version: 0.1.1
+            Revised: 27/01-2018
             Changelog:
+            0.1.1 -- Added links
         .PARAMETER SupportBeeCompany
             Company name for the SupportBee organization
         .PARAMETER TicketId
@@ -238,13 +290,18 @@ function Get-SBComment {
             An Access token is required for this function.
             Access tokens can be found under the Settings > API Token screen
             on your Support Bee site  
+        .LINK
+            https://github.com/rumart/SupportBeePS
+            https://adatum.no
+            https://rudimartinsen.com
         .NOTES
             Info
-            Author: Rudi Martinsen / Intility AS and Martin Ehrnst / Intility AS
+            Author: Rudi Martinsen and Martin Ehrnst
             Date: 20/01-2018
-            Version: 0.1.0
-            Revised: 
+            Version: 0.1.1
+            Revised: 27/01-2018
             Changelog:
+            0.1.1 -- Added links
         .PARAMETER SupportBeeCompany
             Company name for the SupportBee organization
         .PARAMETER TicketId
@@ -288,13 +345,18 @@ function New-SBComment {
             An Access token is required for this function.
             Access tokens can be found under the Settings > API Token screen
             on your Support Bee site  
+        .LINK
+            https://github.com/rumart/SupportBeePS
+            https://adatum.no
+            https://rudimartinsen.com
         .NOTES
             Info
-            Author: Rudi Martinsen / Intility AS and Martin Ehrnst / Intility AS
+            Author: Rudi Martinsen and Martin Ehrnst
             Date: 20/01-2018
-            Version: 0.1.0
-            Revised: 
+            Version: 0.1.1
+            Revised: 27/01-2018
             Changelog:
+            0.1.1 -- Added links
         .PARAMETER SupportBeeCompany
             Company name for the SupportBee organization
         .PARAMETER TicketId
@@ -350,13 +412,18 @@ function Get-SBReply {
             An Access token is required for this function.
             Access tokens can be found under the Settings > API Token screen
             on your Support Bee site  
+        .LINK
+            https://github.com/rumart/SupportBeePS
+            https://adatum.no
+            https://rudimartinsen.com
         .NOTES
             Info
-            Author: Rudi Martinsen / Intility AS and Martin Ehrnst / Intility AS
+            Author: Rudi Martinsen and Martin Ehrnst
             Date: 20/01-2018
-            Version: 0.1.0
-            Revised: 
+            Version: 0.1.1
+            Revised: 27/01-2018
             Changelog:
+            0.1.1 -- Added links
         .PARAMETER SupportBeeCompany
             Company name for the SupportBee organization
         .PARAMETER TicketId
@@ -402,13 +469,18 @@ function New-SBReply {
             An Access token is required for this function.
             Access tokens can be found under the Settings > API Token screen
             on your Support Bee site  
+        .LINK
+            https://github.com/rumart/SupportBeePS
+            https://adatum.no
+            https://rudimartinsen.com
         .NOTES
             Info
-            Author: Rudi Martinsen / Intility AS and Martin Ehrnst / Intility AS
+            Author: Rudi Martinsen and Martin Ehrnst
             Date: 20/01-2018
-            Version: 0.1.0
-            Revised: 
+            Version: 0.1.1
+            Revised: 27/01-2018
             Changelog:
+            0.1.1 -- Added links
         .PARAMETER SupportBeeCompany
             Company name for the SupportBee organization
         .PARAMETER TicketId
@@ -466,13 +538,18 @@ function Get-SBLabel {
             An Access token is required for this function.
             Access tokens can be found under the Settings > API Token screen
             on your Support Bee site  
+        .LINK
+            https://github.com/rumart/SupportBeePS
+            https://adatum.no
+            https://rudimartinsen.com
         .NOTES
             Info
-            Author: Rudi Martinsen / Intility AS and Martin Ehrnst / Intility AS
+            Author: Rudi Martinsen and Martin Ehrnst
             Date: 20/01-2018
-            Version: 0.1.0
-            Revised: 
+            Version: 0.1.1
+            Revised: 27/01-2018
             Changelog:
+            0.1.1 -- Added links
         .PARAMETER SupportBeeCompany
             Company name for the SupportBee organization
         .PARAMETER TicketId
@@ -513,13 +590,20 @@ function Add-SBLabel {
             An Access token is required for this function.
             Access tokens can be found under the Settings > API Token screen
             on your Support Bee site  
+        .LINK
+            https://github.com/rumart/SupportBeePS
+            https://adatum.no
+            https://rudimartinsen.com
         .NOTES
             Info
-            Author: Rudi Martinsen / Intility AS and Martin Ehrnst / Intility AS
+            Author: Rudi Martinsen and Martin Ehrnst
             Date: 20/01-2018
-            Version: 0.1.0
-            Revised: 
+            Version: 0.1.1
+            Revised: 27/01-2018
             Changelog:
+            0.1.1 -- Added links
+        .LINK
+            
         .PARAMETER SupportBeeCompany
             Company name for the SupportBee organization
         .PARAMETER TicketId
